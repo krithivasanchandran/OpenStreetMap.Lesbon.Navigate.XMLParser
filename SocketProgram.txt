@@ -1,0 +1,74 @@
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
+import java.net.CookieStore;
+import java.net.HttpCookie;
+import java.net.ServerSocket;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.List;
+import java.util.logging.Logger;
+
+
+public class Torrent {
+	
+	public static void main(String args[]) throws IOException{
+		
+		InputStream inputStream = null;
+		
+		CookieManager manager = new CookieManager();
+		manager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+		manager.setDefault(manager);
+		
+		ServerSocket server = new ServerSocket();
+		
+		File file = new File("C:/Users/KRITHIVASAN CHANDRAN/Desktop/a.txt");
+		if(file.createNewFile()){
+			System.out.println("File creation success");
+		}
+		FileOutputStream output = new FileOutputStream(file);
+		
+		
+		byte[] b = new byte[1024];
+		URL url = new URL("http://www.bestbuy.com/");
+		
+		StringBuilder  builder = new StringBuilder(); 
+		builder.append("getAuthority() -------->" + url.getAuthority() + "\n");
+		builder.append("getDefaultPort() -------->" + url.getDefaultPort() + "\n");
+		builder.append("getHost() -------->" + url.getHost() + "\n");
+		builder.append("getPath() -------->" + url.getPath() + "\n");
+		builder.append("getPort() -------->" + url.getPort() + "\n");
+		builder.append("getProtocol() -------->" + url.getProtocol() + "\n");
+		builder.append("getQuery() -------->" + url.getQuery() + "\n");
+		builder.append("getUserInfo() -------->" + url.getUserInfo() + "\n");
+		builder.append("toExternalForm() -------->" + url.toExternalForm() + "\n");
+		builder.append("getContent() -------->" + url.getContent().toString() + "\n");
+		System.out.println(" builder contents " + builder.toString());
+		URLConnection connection = url.openConnection();
+
+		inputStream = connection.getInputStream();
+		
+		for(int count = inputStream.read(b); count != -1 ; count = inputStream.read(b)){
+			output.write(b,0,count);
+		}
+		
+		CookieStore cookie = manager.getCookieStore();
+		List<HttpCookie> httpcookie = cookie.getCookies();
+	
+		for(HttpCookie cooks : httpcookie){
+			System.out.println(" Cookie is " + cooks);
+			System.out.println("getCommentURL() -------->" + cooks.getCommentURL()+ "\n");
+			System.out.println("getPortlist() -------->" + cooks.getPortlist()+ "\n");
+			System.out.println("getSecure() -------->" + cooks.getSecure() + "\n");
+			System.out.println("getMaxAge() -------->" + cooks.getMaxAge() + "\n");
+			System.out.println("toString() -------->" + cooks.toString() + "\n");
+		}
+		
+		
+		file.deleteOnExit();
+	}
+
+}
