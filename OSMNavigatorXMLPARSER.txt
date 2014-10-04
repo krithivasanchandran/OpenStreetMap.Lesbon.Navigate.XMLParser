@@ -1,0 +1,147 @@
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+public class OSMNavigate {
+
+	public static void main(String[] args) throws ParserConfigurationException,
+			SAXException, IOException {
+
+		LocationInformation locale = new LocationInformation();
+		RetainIntersectionPointBetweenWayPoints pointretainement = new RetainIntersectionPointBetweenWayPoints();
+		Map<String, List<WayInfoBean>> way = new HashMap<String, List<WayInfoBean>>();
+		List<WayInfoBean> coordinatesWay = new ArrayList<WayInfoBean>();
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		Document document = builder
+				.parse(new File(
+						"C:/Users/KRITHIVASAN CHANDRAN/Desktop/eclipse/LisbonNavigationOSMParser/Lisboa.xml"));
+		WayInfoBean wayInfoBean = null;
+
+		NodeList nodeList = document.getDocumentElement().getElementsByTagName(
+				"node");
+		NodeList way_Node_List = document.getDocumentElement()
+				.getElementsByTagName("way");
+
+		for (int j = 0; j < way_Node_List.getLength(); j++) {
+
+			Node way_node = way_Node_List.item(j);
+
+			if (way_node.hasChildNodes()) {
+
+				NodeList child_Nodes = way_node.getChildNodes();
+				LinkedList<String> validateCheckPolygon = new LinkedList<String>();
+
+				for (int k = 0; k < child_Nodes.getLength(); k++) {
+
+					Node dijikstra_way = child_Nodes.item(k);
+
+					if (dijikstra_way.getNodeType() == dijikstra_way.ELEMENT_NODE) {
+
+						Element fin = (Element) dijikstra_way;
+
+						if (fin.getNodeName().equals("nd")) {
+
+							String referenceId = fin.getAttribute("ref");
+							validateCheckPolygon.add(referenceId);
+
+							if (validateCheckPolygon.size() > 1) {
+								if (validateCheckPolygon.getFirst().equals(
+										validateCheckPolygon.getLast())) {
+									coordinatesWay = new ArrayList<WayInfoBean>();
+									for (int i = 0; i < validateCheckPolygon
+											.size(); i++) {
+										wayInfoBean = new WayInfoBean();
+										String referID = validateCheckPolygon
+												.get(i);
+										wayInfoBean = locale
+												.serviceFetchLocationInformation(
+														nodeList, referID);
+										if (wayInfoBean != null) {
+											coordinatesWay.add(wayInfoBean);
+										}
+									}
+									
+									//way.put("Building", coordinatesWay);
+									validateCheckPolygon.clear();
+								} else {
+									coordinatesWay = new ArrayList<WayInfoBean>();
+									for (int i = 0; i < validateCheckPolygon
+											.size(); i++) {
+										wayInfoBean = new WayInfoBean();
+										String referID = validateCheckPolygon
+												.get(i);
+										wayInfoBean = locale
+												.serviceFetchLocationInformation(
+														nodeList, referID);
+										if (wayInfoBean != null) {
+											coordinatesWay.add(wayInfoBean);
+										}
+									}
+								}
+							}
+						} else if (fin.getNodeName().equals("tag")) {
+
+							if (!validateCheckPolygon.isEmpty()) {
+								String key = fin.getAttribute("k");
+								if (key.equalsIgnoreCase("name")) {
+									String roadname = fin.getAttribute("v");
+									if (!coordinatesWay.isEmpty()) {
+										way.put(roadname, coordinatesWay);
+										validateCheckPolygon.clear();
+									}
+								}
+							}
+
+						}
+
+					}
+				}
+			}
+		}
+		
+		Map<String,List<WayInfoBean>> retainedValues = pointretainement.retainInterseactionPoints(way);
+		
+		 Set<String> clonedRoadName =  retainedValues.keySet();
+		 List<WayInfoBean> infoBean;
+		 for(String key : clonedRoadName){
+			 infoBean = new ArrayList<WayInfoBean>();
+			 infoBean = retainedValues.get(key);
+			 for(int i=0;i<infoBean.size();i++){
+				System.out.println( " ROADNAME "  + key + " LATITUDE " + infoBean.get(i).getLatitude() + " LONGITUDE " + infoBean.get(i).getLongitude());
+			 }
+		 }
+		 
+
+//		if (way.containsKey("Escadinhas do Espírito Santo da Pedreira")) {
+//			System.out.println(" yes the way contains the key");
+//			List<WayInfoBean> testList = new ArrayList<WayInfoBean>();
+//			testList = way.get("Escadinhas do Espírito Santo da Pedreira");
+//			Iterator itr = testList.listIterator();
+//			while (itr.hasNext()) {
+//				WayInfoBean infy;
+//				infy = (WayInfoBean) itr.next();
+//				if (infy != null) {
+//					System.out.println(infy.getReferenceId() + " - "
+//							+ infy.getLatitude() + " - " + infy.getLongitude());
+//				}
+//			}
+//		}
+
+	}
+}
