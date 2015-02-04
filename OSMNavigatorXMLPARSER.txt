@@ -126,22 +126,5 @@ public class OSMNavigate {
 				System.out.println( " ROADNAME "  + key + " LATITUDE " + infoBean.get(i).getLatitude() + " LONGITUDE " + infoBean.get(i).getLongitude());
 			 }
 		 }
-		 
-
-//		if (way.containsKey("Escadinhas do Espírito Santo da Pedreira")) {
-//			System.out.println(" yes the way contains the key");
-//			List<WayInfoBean> testList = new ArrayList<WayInfoBean>();
-//			testList = way.get("Escadinhas do Espírito Santo da Pedreira");
-//			Iterator itr = testList.listIterator();
-//			while (itr.hasNext()) {
-//				WayInfoBean infy;
-//				infy = (WayInfoBean) itr.next();
-//				if (infy != null) {
-//					System.out.println(infy.getReferenceId() + " - "
-//							+ infy.getLatitude() + " - " + infy.getLongitude());
-//				}
-//			}
-//		}
-
 	}
 }
