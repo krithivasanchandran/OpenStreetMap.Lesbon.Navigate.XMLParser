@@ -1,11 +1,20 @@
 Open Street Map XML Data:  
 
+<<<<<<< HEAD
 The XML usually consists of Node, Way, Relation – 
 
 Node – The node are points on earth that are represented by Reference ID, longitude , latitude parameters which are essential for the XML parsing . The other data is not essential.  Nodes are used to represent shops, bus stops, benches, and post boxes. A node without any tags will always be a sub-element of another element.
 
 <node id="2256232444" lat="38.7325109" lon="-9.2087326" version="2" timestamp="2013-11-08T00:55:31Z" changeset="18774798" uid="380552" user="topolusitania"/>
 Way – An ordered list of nodes is called a way. A way has a maximum of 2000 nodes to ensure that tools and users are not overwhelmed with very large structures that are difficult to manipulate. They are used for representing linear features like footpaths, roads, rail lines, and power lines.Areas do not have a specific data type, and are simply a kind of closed way where the first node is the same as the last node. They are used to represent building outlines, parks, and landuse. The way ranges from primary roads, Secondary roads , interstate highways , trunks , streets and residential roads . 
+=======
+The XML usually consists of Node, Way, Relation â€“ 
+
+Node â€“ The node are points on earth that are represented by Reference ID, longitude , latitude parameters which are essential for the XML parsing . The other data is not essential.  Nodes are used to represent shops, bus stops, benches, and post boxes. A node without any tags will always be a sub-element of another element.
+
+<node id="2256232444" lat="38.7325109" lon="-9.2087326" version="2" timestamp="2013-11-08T00:55:31Z" changeset="18774798" uid="380552" user="topolusitania"/>
+Way â€“ An ordered list of nodes is called a way. A way has a maximum of 2000 nodes to ensure that tools and users are not overwhelmed with very large structures that are difficult to manipulate. They are used for representing linear features like footpaths, roads, rail lines, and power lines.Areas do not have a specific data type, and are simply a kind of closed way where the first node is the same as the last node. They are used to represent building outlines, parks, and landuse. The way ranges from primary roads, Secondary roads , interstate highways , trunks , streets and residential roads . 
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 
 <way id="23658520" version="10" timestamp="2014-11-27T01:14:11Z" changeset="27059043" uid="47097" user="Josef K">
 <nd ref="218034780"/>
@@ -15,20 +24,36 @@ Way – An ordered list of nodes is called a way. A way has a maximum of 2000 node
 <tag k="access" v="delivery"/>
 <tag k="highway" v="residential"/>
 <tag k="lit" v="yes"/>
+<<<<<<< HEAD
 <tag k="name" v="Rua João das Regras"/>
 <tag k="oneway" v="yes"/>
 </way>
 
 Tags – These tags describe the feature they are attached to, and can be any pair of strings up to a maximum of 255 characters in length (including spaces), with the only restriction that keys be unique inside one element. If there are no tags associated with a feature, most renderings of the data won't display that feature. The tags are key – value <k,v>  pair that defines the way with a lot of parameters  . Some of the most commonly used keys are name , transportation , mode , oneway , bicycle , footway , highway , housename , address house number ,address street , address post code. 
+=======
+<tag k="name" v="Rua JoÃ£o das Regras"/>
+<tag k="oneway" v="yes"/>
+</way>
+
+Tags â€“ These tags describe the feature they are attached to, and can be any pair of strings up to a maximum of 255 characters in length (including spaces), with the only restriction that keys be unique inside one element. If there are no tags associated with a feature, most renderings of the data won't display that feature. The tags are key â€“ value <k,v>  pair that defines the way with a lot of parameters  . Some of the most commonly used keys are name , transportation , mode , oneway , bicycle , footway , highway , housename , address house number ,address street , address post code. 
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 
 <tag k="access" v="delivery"/>
 <tag k="highway" v="residential"/>
 <tag k="lit" v="yes"/>
+<<<<<<< HEAD
 <tag k="name" v="Rua João das Regras"/>
 <tag k="oneway" v="yes"/>
 
 
 Relation – A relation is one of the core data elements that consists of one or more tags and also an ordered list of one or more nodes, ways and/or reference ids.  
+=======
+<tag k="name" v="Rua JoÃ£o das Regras"/>
+<tag k="oneway" v="yes"/>
+
+
+Relation â€“ A relation is one of the core data elements that consists of one or more tags and also an ordered list of one or more nodes, ways and/or reference ids.  
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 
 <relation id="3323894" version="1" timestamp="2013-11-13T17:44:34Z" changeset="18878616" uid="380552" user="topolusitania">
 <member type="way" ref="246015129" role="outer"/>
@@ -38,15 +63,26 @@ Relation – A relation is one of the core data elements that consists of one or m
 
 Design the DOM XML Parser : 
 
+<<<<<<< HEAD
 Code snippet: 
 
 Document Object Model parser is provides APIs that let you create, modify, delete, and rearrange nodes. It is great to manipulate the pulled XML parser. The DOM constructs an in -memory tree of the XML nodes. Document Builder , Node, child Elements, NamedNodeMap are some of the commonly imported libraries.
 
+=======
+Document Object Model parser is provides APIs that let you create, modify, delete, and rearrange nodes. It is great to manipulate the pulled XML parser. The DOM constructs an in -memory tree of the XML nodes. Document Builder , Node, child Elements, NamedNodeMap are some of the commonly imported libraries.
+
+Code snippet: 
+
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 DocumentBuilder builder = factory.newDocumentBuilder();
 Document document = builder.parse(new File("C:/Users/KRITHIVASAN CHANDRAN/Desktop/eclipse/LisbonNavigationOSMParser/Lisboa.xml"));
 		
+<<<<<<< HEAD
 Getting the Child Elements by Named Node Name – Way and Node – 
+=======
+Getting the Child Elements by Named Node Name â€“ Way and Node â€“ 
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 
 NodeList nodeList = document.getDocumentElement().getElementsByTagName("node");
 		
@@ -55,11 +91,18 @@ NodeList way_Node_List = document.getDocumentElement()
  
 JSON Parser Implementation: 
 
+<<<<<<< HEAD
 JSON is a lightweight data – interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. JSON is also a collection of name-value pairs – an ordered list of values. 
 
 public class JSONParser {
 
 
+=======
+JSON is a lightweight data â€“ interchange format. It is easy for humans to read and write. It is easy for machines to parse and generate. JSON is also a collection of name-value pairs â€“ an ordered list of values. 
+
+
+public class JSONParser {
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 public static void main(String[] args) throws IOException {
 // Getting the tag data
 Map<String,String> popularkeys = new HashMap<String,String>();
@@ -74,6 +117,7 @@ List<Map> value = (List) jsonData.get("data");
 for(Map dataset : value){
 String keyset = (String) dataset.get("key");
 if(!keyset.equalsIgnoreCase("source") && keyset != null){
+<<<<<<< HEAD
 //	 System.out.print(keyset+ "------------>");
 String datavalue = (String) dataset.get("value");
 //	 System.out.println(datavalue);
@@ -85,6 +129,13 @@ System.out.println(popularkeys.entrySet());
 }
 
 }
+=======
+String datavalue = (String) dataset.get("value");
+popularkeys.put(keyset, datavalue);
+}}}
+System.out.println(popularkeys.entrySet());
+}}
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 
 The popular tag key elements are to be parsed from the URL given above to perform hash table lookup with the generated tags from the XML document structure.
 PopularKeys prints the key value pair of the entire tags database table.
@@ -100,11 +151,19 @@ synchronized (coordinatesWay) {
 Synchronized block helps in mutual exclusion of atmost one thread 
 Writing the contents to the Database . 
 
+<<<<<<< HEAD
 coordinatesWay – HashMap – Contains the Reference ID , Longitude and Latitude points 
 
 tagAttributesContainer – Contains Key-Value pair of all Tags .
 
 Neo 4J JDBC – ODBC Connection - 
+=======
+coordinatesWay â€“ HashMap â€“ Contains the Reference ID , Longitude and Latitude points 
+
+tagAttributesContainer â€“ Contains Key-Value pair of all Tags .
+
+Neo 4J JDBC â€“ ODBC Connection - 
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 
 	Connection con = DriverManager.getConnection("jdbc:neo4j://localhost:7474/");
 
@@ -145,12 +204,21 @@ CREATE UNIQUE (33360505)-[:localway]->(1135629360)
 
 Cypher Query Language: 
 
+<<<<<<< HEAD
 1.	MATCH N RETURN COUNT(*) – Return the total number of nodes.
 2.	START n=node(*) MATCH (n)-[r]? (m) RETURN n,r,m; - Return all the nodes with following outgoing directed relationship 
 3.	MATCH (lane : way {name : ‘Rua Augusta’ }) ? (way) RETURN way.name; - Returns the name of nodes connected to ‘Rua Augusta’. 
 4.	MATCH (lane : way {name : ‘Rua Augusta’ }) ? (way) RETURN way.name; - Returns the name of nodes incoming relationship to ‘Rua Augusta’. 
 5.	MATCH (lane:Way { name:"Rua da Alfândega" }),(laner:Way { name:"Oliver Stone" }),  p = shortestPath((lane)-[*..15]?(laner)) RETURN p;  - Returns the shortest path from Source to Destination in 15 hops . 
 6.	MATCH (lane:Way { name:"Rua da Alfândega" }),(laner:Way { name:"Oliver Stone" }),  p = allShortestPaths((lane)-[*..15]?(laner)) RETURN p; -  Returns all the shortest path from Source to Destination
+=======
+1.	MATCH N RETURN COUNT(*) â€“ Return the total number of nodes.
+2.	START n=node(*) MATCH (n)-[r]ïƒ  (m) RETURN n,r,m; - Return all the nodes with following outgoing directed relationship 
+3.	MATCH (lane : way {name : â€˜Rua Augustaâ€™ }) ïƒ  (way) RETURN way.name; - Returns the name of nodes connected to â€˜Rua Augustaâ€™. 
+4.	MATCH (lane : way {name : â€˜Rua Augustaâ€™ }) ïƒŸ (way) RETURN way.name; - Returns the name of nodes incoming relationship to â€˜Rua Augustaâ€™. 
+5.	MATCH (lane:Way { name:"Rua da AlfÃ¢ndega" }),(laner:Way { name:"Oliver Stone" }),  p = shortestPath((lane)-[*..15]ïƒ (laner)) RETURN p;  - Returns the shortest path from Source to Destination in 15 hops . 
+6.	MATCH (lane:Way { name:"Rua da AlfÃ¢ndega" }),(laner:Way { name:"Oliver Stone" }),  p = allShortestPaths((lane)-[*..15]ïƒ (laner)) RETURN p; -  Returns all the shortest path from Source to Destination
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 
 Visualizing the Neo4J Graph with respect to Lisbon :
 
@@ -175,7 +243,11 @@ Way Named Node contains child elements identified by referenceID. The relationsh
 <tag k="access" v="delivery"/>
 <tag k="highway" v="residential"/>
 <tag k="lit" v="yes"/>
+<<<<<<< HEAD
 <tag k="name" v="Rua João das Regras"/>
+=======
+<tag k="name" v="Rua JoÃ£o das Regras"/>
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 <tag k="oneway" v="yes"/>
 </way>
 
@@ -222,11 +294,19 @@ Finding Shortest Path between Source to Destination - A* algorithm ( Internal Ne
 
 Shortest Path: 
 
+<<<<<<< HEAD
 Source : Calçada do Carmo , Lisbon , Portugal
 
 Destination : Rua de São Julião , Lisbon , Portugal
 
 Query :  MATCH (martin:way { name:"Calçada do Carmo" }),(oliver:way { name:"Rua -de São Julião" }),  p = shortestPath((martin)-[*..13]-(oliver))
+=======
+Source : CalÃ§ada do Carmo , Lisbon , Portugal
+
+Destination : Rua de SÃ£o JuliÃ£o , Lisbon , Portugal
+
+Query :  MATCH (martin:way { name:"CalÃ§ada do Carmo" }),(oliver:way { name:"Rua -de SÃ£o JuliÃ£o" }),  p = shortestPath((martin)-[*..13]-(oliver))
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 RETURN p;
 
 ScreenShot:
@@ -234,18 +314,31 @@ ScreenShot:
  
 
 
+<<<<<<< HEAD
 Output : Analysis_Json1 – Included in project Folder   *****
+=======
+Output : Analysis_Json1 â€“ Included in project Folder   *****
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 
 All the Shortest Path: 
 
 Determines all the shortest path from source to destination . 
 
+<<<<<<< HEAD
 Source : Calçada do Carmo , Lisbon , Portugal
 
 Destination : Rua de São Julião , Lisbon , Portugal
 
 Source Node : Calçada do Carmo 
 Transit Node : Rua de São Nicolau, Rua de Santa Justa , Rua dos Fanqueiros , Rua de São Julião
+=======
+Source : CalÃ§ada do Carmo , Lisbon , Portugal
+
+Destination : Rua de SÃ£o JuliÃ£o , Lisbon , Portugal
+
+Source Node : CalÃ§ada do Carmo 
+Transit Node : Rua de SÃ£o Nicolau, Rua de Santa Justa , Rua dos Fanqueiros , Rua de SÃ£o JuliÃ£o
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 Destination Node : Rua da Madalena.
 
 
@@ -256,6 +349,7 @@ MATCH (martin:way { name:"Rua dos Correeiros" }),(oliver:way { name:"Rua da Mada
 
 Returns 14 nodes, and 13 relationships. 
 
+<<<<<<< HEAD
 OUTPUT: Analysis_Json2 – Included in project Folder *****
 
 ScreenShot:
@@ -277,6 +371,11 @@ Custom Map Design Using TileMill:
 
 
 TileMill  is used for custom map design – by uploading map data from various sources . Though TileMill takes a lot of time to render the output. The CSS is used to style the map. 
+=======
+OUTPUT: Analysis_Json2 â€“ Included in project Folder *****
+
+TileMill  is used for custom map design â€“ by uploading map data from various sources . Though TileMill takes a lot of time to render the output. The CSS is used to style the map. 
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 
 #lisbonportugal [highway='motorway'],
 #lisbonportugal [highway='motorway_link']{
@@ -302,7 +401,11 @@ The motorway link : cars , trunks  , bikes  used black as outer color and blue a
   }
   }
 
+<<<<<<< HEAD
 The primary highways – I-20 , I-10 are shown in red color in the map .
+=======
+The primary highways â€“ I-20 , I-10 are shown in red color in the map .
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 
   #lisbonbuilding [building != '' ]{
    
@@ -335,6 +438,7 @@ The primary highways – I-20 , I-10 are shown in red color in the map .
 
 Buildings are shown in purple color. Zoom parameter helps in reloading the map with a different CSS which shows a detailed view of the streets and buildings. Screenshot shows the zoomed level map :
 
+<<<<<<< HEAD
  
 
 
@@ -360,15 +464,25 @@ Buildings are shown in purple color. Zoom parameter helps in reloading the map w
 
 
 
+=======
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 2.2. Requirements and Assumptions
 
 2.2.1 Interfaces:
 
+<<<<<<< HEAD
 The application is a standalone – most of computation happens in the backend data sources. The user can provide the source and destination in the cypher query which returns the output result in the JSON format. 
 
 2.2.2 Functional Capabilities:
 
 Functions of the application involves importing the data sources (XML) , JSON – parsed using DOM parser , JSON parser . The data is analyzed based on input schema , sorted , stratified , made calculations , deriving patterns and relationships between nodes using Cypher query and visualized using graphical libraries inbuilt in Neo4J. 
+=======
+The application is a standalone â€“ most of computation happens in the backend data sources. The user can provide the source and destination in the cypher query which returns the output result in the JSON format. 
+
+2.2.2 Functional Capabilities:
+
+Functions of the application involves importing the data sources (XML) , JSON â€“ parsed using DOM parser , JSON parser . The data is analyzed based on input schema , sorted , stratified , made calculations , deriving patterns and relationships between nodes using Cypher query and visualized using graphical libraries inbuilt in Neo4J. 
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 
 2.2.3 Performance Levels:
 
@@ -376,7 +490,11 @@ Performance on the end system is satisfactory. The Performance of TileMill is sl
 
 2.2.4 Data Structures:
 
+<<<<<<< HEAD
 On the fly XML data capture is used – Java 8 – List.Stream.Parallel() is used for parallel computation of list elements. HashMap is used for storing values of NamedNode elements. StringBuffer is mostly used for String computations has it is synchronized and prevents lazy writes. Neo4J uses highly optimized shortest path algorithms with O(nlogn) time.
+=======
+On the fly XML data capture is used â€“ Java 8 â€“ List.Stream.Parallel() is used for parallel computation of list elements. HashMap is used for storing values of NamedNode elements. StringBuffer is mostly used for String computations has it is synchronized and prevents lazy writes. Neo4J uses highly optimized shortest path algorithms with O(nlogn) time.
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 
 2.2.5 Safety:
 
@@ -408,6 +526,7 @@ The Results are compared between Neo4J database output and Google Maps .
 
 Shortest Path: 
 
+<<<<<<< HEAD
 Source :  Calçada do Carmo , Lisbon , Portugal
 
 Destination :  Rua de São Julião , Lisbon , Portugal
@@ -431,16 +550,34 @@ Directions – google maps – same source and destination as above:
 
  
 
+=======
+Source :  CalÃ§ada do Carmo , Lisbon , Portugal
+
+Destination :  Rua de SÃ£o JuliÃ£o , Lisbon , Portugal
+
+Query :  MATCH (martin:way { name:"CalÃ§ada do Carmo" }),(oliver:way { name:"Rua -de SÃ£o JuliÃ£o" }),  p = shortestPath((martin)-[*..13]-(oliver))
+RETURN p;
+
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 The Output of Neo4J is in JSON format is included in project Jar file with Name Analysis_Json1 for analysis. 
 
 (ii)	Result and Comparison: 
 
+<<<<<<< HEAD
 Source : Calçada do Carmo , Lisbon , Portugal
 
 Destination : Rua de São Julião , Lisbon , Portugal
 
 Source Node : Calçada do Carmo 
 Transit Node : Rua de São Nicolau, Rua de Santa Justa , Rua dos Fanqueiros , Rua de São Julião
+=======
+Source : CalÃ§ada do Carmo , Lisbon , Portugal
+
+Destination : Rua de SÃ£o JuliÃ£o , Lisbon , Portugal
+
+Source Node : CalÃ§ada do Carmo 
+Transit Node : Rua de SÃ£o Nicolau, Rua de Santa Justa , Rua dos Fanqueiros , Rua de SÃ£o JuliÃ£o
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 Destination Node : Rua da Madalena.
 
 Query : 
@@ -450,6 +587,7 @@ MATCH (martin:way { name:"Rua dos Correeiros" }),(oliver:way { name:"Rua da Mada
 
 Returns 14 nodes, and 13 relationships. 
 
+<<<<<<< HEAD
           ScreenShot:
 
  
@@ -467,15 +605,24 @@ Directions – google maps – same source and destination as above:
  
 
 
+=======
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 
 (iii)	Result and Comparison:
 
 Source : Rua da Padaria, Lisboa, Portugal
 
+<<<<<<< HEAD
 Destination : Rua do Instituto Virgílio Machado, Lisboa, Portugal
 
 Source Node : Rua da Padaria
 Transit Node : Rua dos Bacalhoeiros, Rua dos Arameiros, Rua da Alfândega, Rua Instituto Virgilio Machado 
+=======
+Destination : Rua do Instituto VirgÃ­lio Machado, Lisboa, Portugal
+
+Source Node : Rua da Padaria
+Transit Node : Rua dos Bacalhoeiros, Rua dos Arameiros, Rua da AlfÃ¢ndega, Rua Instituto Virgilio Machado 
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 
 Destination Node : Rua Instituto Virgilio Machado.
 
@@ -485,6 +632,7 @@ MATCH (martin:way { name:"Rua Instituto Virgilio Machado"}), (oliver:way { name:
 
 Output : Analysis_Json3.json
 
+<<<<<<< HEAD
 Returns 23 nodes, and 24 relationships. 
 
 
@@ -503,12 +651,18 @@ Mapping the coordinates in Google Maps We get the below results:
 
  
 
+=======
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 
 4.0. Conclusion
 
 My code delivers the solution for the requirement and is tested in Lisbon , Portugal with a radius of 100 miles . 
 
+<<<<<<< HEAD
 Future developments of the maps navigation would be turn – by – turn navigation for people by walk, by car, by bus or tram or other public transportation and OpenXC integration. 
+=======
+Future developments of the maps navigation would be turn â€“ by â€“ turn navigation for people by walk, by car, by bus or tram or other public transportation and OpenXC integration. 
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 
 Manual tests were done and meets expected results. 
 
@@ -518,7 +672,11 @@ Manual tests were done and meets expected results.
 5.0. References
 
 StackOverflow.com 
+<<<<<<< HEAD
 Neo4J Manual – Cypher Query Language
+=======
+Neo4J Manual â€“ Cypher Query Language
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
 Open Street Maps Wiki
 Java 8 Complete reference.
 
@@ -528,6 +686,7 @@ Refer Introduction.
 
 7.1. Services and Software Used
 
+<<<<<<< HEAD
 •	Eclipse – Juno 
 •	Neo4J Database
 •	XML , JSON
@@ -537,3 +696,15 @@ Refer Introduction.
 •	Open Data Portugal - http://www.dados.gov.pt/pt/inicio/inicio.aspx
 •	Sublime Text Editor 
 •	Open Street Maps – Wiki 
+=======
+â€¢	Eclipse â€“ Juno 
+â€¢	Neo4J Database
+â€¢	XML , JSON
+â€¢	TileMill â€“ Custom Map creater
+â€¢	QGIS â€“ Vector Mapping
+â€¢	OpenXC (Fords Open Source Platform)
+â€¢	Open Data Portugal - http://www.dados.gov.pt/pt/inicio/inicio.aspx
+â€¢	Sublime Text Editor 
+â€¢	Open Street Maps â€“ Wiki 
+
+>>>>>>> 6378b91e1bc0c5d4dcc67187611d502caa8769ef
