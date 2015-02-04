@@ -1,488 +1,59 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
-import java.util.StringTokenizer;
+import java.util.Set;
 
 
-
-public class amazon {
+public class RetainIntersectionPointBetweenWayPoints {
 	
-	static{
-		int flagset= 0;
-		final String FILENAME = "c://as";
-		}
-
-	public static void main(String args[]) throws IOException,FileNotFoundException {
+	public Map<String,List<WayInfoBean>> retainInterseactionPoints(Map<String,List<WayInfoBean>> rawWayPoints){
 		
-		List<String> constant_location_Id = new ArrayList<String>();
-		
-		constant_location_Id.add("center-top");
-		constant_location_Id.add("center-middle");
-		constant_location_Id.add("center-bottom");
-		constant_location_Id.add("right-top");
-		constant_location_Id.add("right-middle");
-		constant_location_Id.add("right-bottom");
-	
-		
-		Map<String,List<Integer>> centertopstartTime = new HashMap<String,List<Integer>>();
-		Map<String,List<Integer>> centertopendTime = new HashMap<String,List<Integer>>();
-		Map<String,List<String>> centerContentid = new HashMap<String,List<String>>();
-
-		
-		Map<String,List<Integer>> centermiddlestartTime = new HashMap<String,List<Integer>>();
-		Map<String,List<Integer>> centermiddleendTime = new HashMap<String,List<Integer>>();
-		Map<String,List<String>> centermiddleContentid = new HashMap<String,List<String>>();
-
-		
-		Map<String,List<Integer>> centerbottomstartTime = new HashMap<String,List<Integer>>();
-		Map<String,List<Integer>> centerbottomendTime = new HashMap<String,List<Integer>>();
-		Map<String,List<String>> centerbottomContentid = new HashMap<String,List<String>>();
-
-		
-		Map<String,List<Integer>> righttopstartTime = new HashMap<String,List<Integer>>();
-		Map<String,List<Integer>> righttopendTime = new HashMap<String,List<Integer>>();
-		Map<String,List<String>> righttopContentid = new HashMap<String,List<String>>();
-
-		
-		Map<String,List<Integer>> rightmiddlestartTime = new HashMap<String,List<Integer>>();
-		Map<String,List<Integer>> rightmiddleendTime = new HashMap<String,List<Integer>>();
-		Map<String,List<String>> rightmiddleContentid = new HashMap<String,List<String>>();
-
-		
-		Map<String,List<Integer>> rightbottomstartTime = new HashMap<String,List<Integer>>();
-		Map<String,List<Integer>> rightbottomendTime = new HashMap<String,List<Integer>>();
-		Map<String,List<String>> rightbottomContentid = new HashMap<String,List<String>>();
-
-		
-		int selfcounter =0 ;
-		int readymadecoutner =0 ;
-		LinkedHashMap linkedmap = new LinkedHashMap();
-		
-		List<String> list_Content_Id = new ArrayList<String>();
-		List<Integer> liststartTime = new ArrayList<Integer>();
-		List<Integer> listendTime = new ArrayList<Integer>();
-		
-		
-		Scanner scan = new Scanner(new File(FILENAME));
-		
-		while(scan.hasNext()){
-			String locale = scan.nextLine();
-			locale = locale.replaceAll("\\s+" , "_");
 			
-			StringTokenizer str = new StringTokenizer(locale,"_");
+			List<WayInfoBean> coordinates = null;
 			
-			while(str.hasMoreElements()){
+			List<WayInfoBean> coordinatescloned = new ArrayList<WayInfoBean>();
+			Map<String,List<WayInfoBean>> clonedrawWayPoints = new HashMap<String,List<WayInfoBean>>();
+
+			List<WayInfoBean> retainedListWayPoints = new ArrayList<WayInfoBean>();
+			Map<String,List<WayInfoBean>> retainedWayPoints = new HashMap<String,List<WayInfoBean>>();
+			
+			Set<String> roadName = rawWayPoints.keySet();
+			
+			for(String s : roadName){
+				clonedrawWayPoints = rawWayPoints;
+				coordinates = new ArrayList<WayInfoBean>();
+				coordinates = rawWayPoints.get(s);
+				Iterator itr = coordinates.iterator();
 				
-				String content_Id = str.nextToken();
-				String file_LocationId = str.nextToken();	
-				int startTime = Integer.parseInt(str.nextToken());
-				int endTime = Integer.parseInt(str.nextToken());
+				while(itr.hasNext()){
+					WayInfoBean info;
+					 info = (WayInfoBean) itr.next();
+					 Set<String> clonedRoadName =  rawWayPoints.keySet();
+					    for(String str : clonedRoadName)
+					    	if(s != str){
+					    		coordinatescloned = clonedrawWayPoints.get(str);
+					    		for(int i=0;i<coordinatescloned.size();i++){
+					    			if( info.getLatitude() == coordinatescloned.get(i).getLatitude()){
+					    				if( info.getLongitude() == coordinatescloned.get(i).getLongitude()){
+					    					System.out.println(" wow it has entered here");
+					    					retainedListWayPoints.add(info);
+					    					retainedWayPoints.put(str,retainedListWayPoints);
+					    					System.out.println("The entered coordinates is in the list and is mutually exclusive");
+					    					
+					    				}
+					    		}
+					    	}
 				
-				
-				switch(file_LocationId){
-				
-				case "center-top" :
-						list_Content_Id.add(content_Id);
-						liststartTime.add(startTime);
-						listendTime.add(endTime);
-						break;
-						
-				case "center-middle" :
-						list_Content_Id.add(content_Id);
-						liststartTime.add(startTime);
-						listendTime.add(endTime);
-						break;
-					
-				case "center-bottom":
-						list_Content_Id.add(content_Id);
-						liststartTime.add(startTime);
-						listendTime.add(endTime);
-						break;
-				
-				case "right-top":
-						list_Content_Id.add(content_Id);
-						liststartTime.add(startTime);
-						listendTime.add(endTime);
-						break;
-				
-				case "right-middle":
-						list_Content_Id.add(content_Id);
-						liststartTime.add(startTime);
-						listendTime.add(endTime);
-						break;
-						
-				case "right-bottom":
-						list_Content_Id.add(content_Id);
-						liststartTime.add(startTime);
-						listendTime.add(endTime);
-						break;
-						
-				default : 
-						System.out.println("The record doesnt contain any of the window panes to be displayed for the AMABOT");
-				
+						}
 				}
-				
 			}
 			
-			}
+			
+		return retainedWayPoints;
 		
-		String centertop = "center-top";
-		centertopstartTime.put(centertop, liststartTime);
-		centertopendTime.put(centertop, listendTime);
-		centerContentid.put(centertop, list_Content_Id);
-		
-		centerbottomstartTime.put("center-bottom",liststartTime);
-		centerbottomendTime.put("center-bottom",listendTime);
-		centerbottomContentid.put("center-bottom", list_Content_Id);
-		
-		centermiddlestartTime.put("center-middle" , liststartTime);
-		centermiddleendTime.put("center-middle", listendTime);
-		centermiddleContentid.put("center-middle", list_Content_Id);
-		
-	    righttopstartTime.put("right-top",liststartTime);
-	    righttopendTime.put("right-top", listendTime);
-	    righttopContentid.put("right-top", list_Content_Id);
-		
-	    
-	    rightmiddlestartTime.put("right-middle", liststartTime);
-	    rightmiddleendTime.put("right-middle", listendTime);
-	    rightmiddleContentid.put("right-middle", list_Content_Id);
-		
-	    rightbottomstartTime.put("right-bottom" , liststartTime);
-	    rightbottomendTime.put("right-bottom" , listendTime);
-	    rightbottomContentid.put("right-bottom", list_Content_Id);
-
-	    
-	    List<Integer> liststart = new ArrayList<Integer>();
-	    List<Integer> listend = new ArrayList<Integer>();
-	    List<String> listcontent = new ArrayList<String>();
-	    
-	    StringBuilder buffer_load = new StringBuilder();
-	
-	     for(String poll : constant_location_Id){
-	    	 
-	    	 switch(poll){
-	    	 
-	    	 case "center-top":
-	    	 {
-	    		 
-	    	 
-	    		 liststart = centertopstartTime.get("center-top");
-	    		 listend = centertopendTime.get("center-top");
-	    		 listcontent = centerContentid.get("center-top");
-	    		 
-	    		 int a[] = new int[liststart.size()];
-	    		 int b[] = new int[listend.size()];
-	    		 int temp[] = new int[liststart.size()];
-	    		 
-	    		 for(int copy=0; copy<liststart.size(); copy++){
-	    			 a[copy] = liststart.get(copy);
-	    			 b[copy] = listend.get(copy);
-	    			 temp[copy] = listend.get(copy);
-	    		 }
-	    		 
-	    		 for(int i=0;i<a.length;i++){
-	    			 
-	    			 int j = 1;
-	    			 int counter = 0;
-	    			 while(a[i] < b[i]){
-	    				 if(a[i] == temp[j]){
-	    					 counter++;
-	    					 if(counter == 3){
-		    					 liststart.remove(i);
-		    					 listend.remove(i);
-		    					 listcontent.remove(i);
-		    				 }
-	    				 }
-	    				 j++;
-	    			 }
-	    		 }
-	    		 
-	    		 buffer_load.append("content_Id" + "         ");
-	    		 
-	    		 buffer_load.append(listcontent);
-
-	    		 buffer_load.append("location_Id" + "         ");
-	    		 
-	    		 buffer_load.append("center-top");
-	    		 
-	    		 buffer_load.append("startTime" + "         ");
-	    		 
-	    		 buffer_load.append(liststart);
-	    		 
-	    		 buffer_load.append("endTime" + "         ");
-	    		 
-	    		 buffer_load.append(listend);
-	    		 
-	    	 }	
-	    	 break;
-	    	 
-	    	 case "center-middle":
-	    	 {
-	    		 liststart = centermiddlestartTime.get("center-middle");
-	    		 listend = centermiddleendTime.get("center-middle");
-	    		 listcontent = centermiddleContentid.get("center-middle");
-	    		 
-	    		 int atemp[] = new int[liststart.size()];
-	    		 int btemp[] = new int[listend.size()];
-	    		 int tempmid[] = new int[liststart.size()];
-	    		 
-	    		 for(int copy=0; copy<liststart.size(); copy++){
-	    			 atemp[copy] = liststart.get(copy);
-	    			 btemp[copy] = listend.get(copy);
-	    			 tempmid[copy] = listend.get(copy);
-	    		 }
-	    	
-	    		 
-	    		 for(int i=0;i<atemp.length;i++){
-	    			 int counter = 0;
-	    			 while(atemp[i] < btemp[i]){
-	    				 int j = 1;
-	    				 if(atemp[i] == tempmid[j]){
-	    					 counter++;
-	    					 if(counter == 3){
-	    					 liststart.remove(i);
-	    					 listend.remove(i);
-	    					 listcontent.remove(i);
-	    					 }
-	    				 }
-	    				 j++;
-	    			 }
-	    		 }
-	    		 
-	    		 buffer_load.append("content_Id" + "         ");
-	    		 
-	    		 buffer_load.append(listcontent);
-
-	    		 buffer_load.append("location_Id" + "         ");
-	    		 
-	    		 buffer_load.append("center-middle");
-	    		 
-	    		 buffer_load.append("startTime" + "         ");
-	    		 
-	    		 buffer_load.append(liststart);
-	    		 
-	    		 buffer_load.append("endTime" + "         ");
-	    		 
-	    		 buffer_load.append(listend);
-	    		 
-	    	 } 
-	    	 break;
-	    	 
-	    	 case "center-bottom":
-	    	 {
-	    		 liststart = centerbottomstartTime.get("center-bottom");
-	    		 listend = centerbottomendTime.get("center-bottom");
-	    		 listcontent = centerbottomContentid.get("center-bottom");
-	    		 
-	    		 int a_temp[] = new int[liststart.size()];
-	    		 int b_temp[] = new int[listend.size()];
-	    		 int temp_mid[] = new int[liststart.size()];
-	    		 
-	    		 for(int copy=0; copy<liststart.size(); copy++){
-	    			 a_temp[copy] = liststart.get(copy);
-	    			 b_temp[copy] = listend.get(copy);
-	    			 temp_mid[copy] = listend.get(copy);
-	    		 }
-	    	
-	    		 
-	    		 for(int i=0;i<a_temp.length;i++){
-	    			 int counter = 0;
-	    			 while(a_temp[i] < b_temp[i]){
-	    				 int j = 1;
-	    				 if(a_temp[i] == temp_mid[j]){
-	    					 if(counter == 3){
-	    					 liststart.remove(i);
-	    					 listend.remove(i);
-	    					 listcontent.remove(i);
-	    					 }
-	    				 }
-	    				 j++;
-	    			 }
-	    		 }
-	    		 
-	    		 buffer_load.append("content_Id" + "         ");
-	    		 
-	    		 buffer_load.append(listcontent);
-
-	    		 buffer_load.append("location_Id" + "         ");
-	    		 
-	    		 buffer_load.append("center-top");
-	    		 
-	    		 buffer_load.append("startTime" + "         ");
-	    		 
-	    		 buffer_load.append(liststart);
-	    		 
-	    		 buffer_load.append("endTime" + "         ");
-	    		 
-	    		 buffer_load.append(listend);
-	    		 
-	    	 }
-	    	 break;
-	    	
-	    	 case "right-top":
-	    	 {
-	    		 liststart = righttopstartTime.get("right-top");
-	    		 listend = righttopendTime.get("right-top");
-	    		 listcontent = righttopContentid.get("right-top");
-	    		 
-	    		 int a__temp[] = new int[liststart.size()];
-	    		 int b__temp[] = new int[listend.size()];
-	    		 int temp__mid[] = new int[liststart.size()];
-	    		 
-	    		 for(int copy=0; copy<liststart.size(); copy++){
-	    			 a__temp[copy] = liststart.get(copy);
-	    			 b__temp[copy] = listend.get(copy);
-	    			 temp__mid[copy] = listend.get(copy);
-	    		 }
-	    	
-	    		 
-	    		 for(int i=0;i<a__temp.length;i++){
-	    			 int counter = 0;
-	    					 
-	    			 while(a__temp[i] < b__temp[i]){
-	    				 int j = 1;
-	    				 if(a__temp[i] == temp__mid[j]){
-	    					 counter++;
-	    					 if(counter == 3){
-	    						 liststart.remove(i);
-		    					 listend.remove(i);
-		    					 listcontent.remove(i);
-	    					 }
-	    				 }
-	    				 j++;
-	    			 }
-	    		 }
-	    		 
-	    		 buffer_load.append("content_Id" + "         ");
-	    		 
-	    		 buffer_load.append(listcontent);
-
-	    		 buffer_load.append("location_Id" + "         ");
-	    		 
-	    		 buffer_load.append("center-top");
-	    		 
-	    		 buffer_load.append("startTime" + "         ");
-	    		 
-	    		 buffer_load.append(liststart);
-	    		 
-	    		 buffer_load.append("endTime" + "         ");
-	    		 
-	    		 buffer_load.append(listend);
-	    		 
-	    	 }
-	    	 break;
-	    	 
-	    	 case "right-middle":
-	    		 
-	    	 {
-	    		 liststart = rightmiddlestartTime.get("right-middle");
-	    		 listend = rightmiddleendTime.get("right-middle");
-	    		 listcontent = rightmiddleContentid.get("right-middle");
-	    		 
-	    		 int a___temp[] = new int[liststart.size()];
-	    		 int b___temp[] = new int[listend.size()];
-	    		 int temp___mid[] = new int[liststart.size()];
-	    		 
-	    		 for(int copy=0; copy<liststart.size(); copy++){
-	    			 a___temp[copy] = liststart.get(copy);
-	    			 b___temp[copy] = listend.get(copy);
-	    			 temp___mid[copy] = listend.get(copy);
-	    		 }
-	    		 
-	    		 for(int i=0;i<a___temp.length;i++){
-	    			 int counter  = 0;
-	    			 while(a___temp[i] < b___temp[i]){
-	    				 int j = 1;
-	    				 if(a___temp[i] == temp___mid[j]){
-	    					 counet
-	    					 liststart.remove(i);
-	    					 listend.remove(i);
-	    					 listcontent.remove(i);
-	    				 }
-	    				 j++;
-	    			 }
-	    		 }
-	    		 
-	    		 buffer_load.append("content_Id" + "         ");
-	    		 
-	    		 buffer_load.append(listcontent);
-
-	    		 buffer_load.append("location_Id" + "         ");
-	    		 
-	    		 buffer_load.append("center-top");
-	    		 
-	    		 buffer_load.append("startTime" + "         ");
-	    		 
-	    		 buffer_load.append(liststart);
-	    		 
-	    		 buffer_load.append("endTime" + "         ");
-	    		 
-	    		 buffer_load.append(listend);
-	    		 
-	    	 }
-	    	 break;
-	    	 
-	    	 case "right-bottom":
-	    		 
-	    	 {
-	    		 liststart = rightbottomstartTime.get("right-bottom");
-	    		 listend = rightbottomendTime.get("right-bottom");
-	    		 listcontent = rightbottomContentid.get("right-bottom");
-	    		 
-	    		 int tempa[] = new int[liststart.size()];
-	    		 int tempb[] = new int[listend.size()];
-	    		 int tempo[] = new int[liststart.size()];
-	    		 
-	    		 for(int i=0;i<tempa.length;i++){
-	    			 
-	    			 while(tempa[i] < tempb[i]){
-	    				 int j = 1;
-	    				 if(tempa[i] == tempo[j]){
-	    					 liststart.remove(i);
-	    					 listend.remove(i);
-	    					 listcontent.remove(i);
-	    				 }
-	    				 j++;
-	    			 }
-	    		 }
-	    		 
-	    		 buffer_load.append("content_Id" + "         ");
-	    		 
-	    		 buffer_load.append(listcontent);
-
-	    		 buffer_load.append("location_Id" + "         ");
-	    		 
-	    		 buffer_load.append("center-top");
-	    		 
-	    		 buffer_load.append("startTime" + "         ");
-	    		 
-	    		 buffer_load.append(liststart);
-	    		 
-	    		 buffer_load.append("endTime" + "         ");
-	    		 
-	    		 buffer_load.append(listend);
-	    	 }
-	    	 break;
-	    	 
-	    	 default:
-	    		 System.out.println("one exit case has not compiled successfully");
-	    	 
-	    	 }
-	    		 
-	    	
-	    	 
-	    	 
-	     }
-	    
 		
 	}
-	
-	
+
 }
