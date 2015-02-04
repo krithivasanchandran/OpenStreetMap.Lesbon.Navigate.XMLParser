@@ -1,0 +1,19 @@
+
+public class DistanceBetweenNodes {
+	
+	  public Double getDistanceBetweenTwoPoints(Double latitude1, Double longitude1, Double latitude2, Double longitude2) {
+		    final int RADIUS_EARTH = 6371;
+
+		    double dLat = getRad(latitude2 - latitude1);
+		    double dLong = getRad(longitude2 - longitude1);
+
+		    double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(getRad(latitude1)) * Math.cos(getRad(latitude2)) * Math.sin(dLong / 2) * Math.sin(dLong / 2);
+		    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		    return (RADIUS_EARTH * c) * 1000;
+		    }
+
+		    private Double getRad(Double x) {
+		    return x * Math.PI / 180;
+		    }
+
+}

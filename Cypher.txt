@@ -1,0 +1,76 @@
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.neo4j.cypher.CypherException;
+import org.neo4j.cypher.javacompat.ExecutionEngine;
+import org.neo4j.cypher.javacompat.ExecutionResult;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.factory.GraphDatabaseFactory;
+
+
+public class Cypher {
+
+	public static void main(String[] args) throws SQLException, FileNotFoundException, UnsupportedEncodingException {
+
+		GraphDatabaseService db = new GraphDatabaseFactory().newEmbeddedDatabase("C:/Users/KRITHIVASAN CHANDRAN/Documents/Neo4j/default.graphdb");
+		ExecutionEngine engine = new ExecutionEngine( db );
+		ExecutionResult result;
+		List<String> refIds = new ArrayList<String>();
+		try ( Transaction ignored = db.beginTx() )
+		{
+		    result = engine.execute(" MATCH (n:way) RETURN DISTINCT n.refid AS p;");
+		    Iterator<String> n_column = result.columnAs( "p" );
+		    while(n_column.hasNext()){
+		    	String refId  = n_column.next();
+		    	if(!refId.equalsIgnoreCase("25726525")){
+		    		refIds.add(refId);
+		    	}
+		    }
+		    ignored.success();
+		}catch(CypherException e){
+			System.out.println(e.getMessage());
+		}
+		
+		try ( Transaction ignored = db.beginTx() )
+		{
+			List<String> distinctnames = new ArrayList<String>();
+			for(String str : refIds){
+				result = engine.execute(" MATCH (n:way { refid :'" + str + "'}) RETURN DISTINCT  n.name AS name;");
+				Iterator<String> column = result.columnAs( "name" );
+				while(column.hasNext()){
+			    	String names  = column.next();
+			    	if(!names.equalsIgnoreCase("Rua do Grémio Lusitano")){
+			    		distinctnames.add(names);
+				    	System.out.println(names + " ----->" + str);
+			    	}
+			    }
+					for(int j=0;j<distinctnames.size();j++){
+						for(int k = j+1; k<distinctnames.size();k++){
+								String source = distinctnames.get(j);
+								String destination = distinctnames.get(k);
+								StringBuffer buffer = new StringBuffer();
+								buffer.append("MATCH (n:way),(lane:way) WHERE n.name = '"+source+"' AND lane.name = '"+destination+"' AND n.refid ='"+str+"' AND lane.refid= '"+str+"'");
+								buffer.append("CREATE UNIQUE (n)-[:EXTERNAL_CONNECT]-(lane);");
+								engine.execute(buffer.toString());
+								System.out.println(buffer.toString());
+						}
+					}
+					distinctnames.clear();
+			}
+		    ignored.success();
+		}catch(CypherException e){
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.out.println(e.getCause().getMessage());
+		}catch(Exception ex){
+			System.out.println(ex.getMessage());
+			System.out.println(ex.getLocalizedMessage());
+			System.out.println(ex.toString());
+		}
+	}	
+}

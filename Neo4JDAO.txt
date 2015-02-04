@@ -1,0 +1,78 @@
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+public class Neo4j {
+	
+	void DBWrite(List<WayInfoBean> coordinateWay, Map<String,String> tags) throws SQLException, FileNotFoundException, UnsupportedEncodingException{
+	
+		Connection con = DriverManager.getConnection("jdbc:neo4j://localhost:7474/");
+		boolean isOneWay = false;
+		String query = null;
+		StringBuffer bufferTag = new StringBuffer();
+		
+		for (String key : tags.keySet()) {
+		    String tagValue = tags.get(key);
+		    
+		    if(key.equalsIgnoreCase("oneway")){
+		    	if(tagValue.equalsIgnoreCase("yes")){
+		    		isOneWay = true;
+		    	}
+		    }else if(key.equalsIgnoreCase("name")){
+		    	if(tagValue.indexOf("'") != -1){
+		    		tagValue = tagValue.replace("'","");
+		    	}
+		    }else if(key.indexOf(":") != -1){
+		    	key = key.replace(":","");
+		    }
+		    
+		    bufferTag.append(key);
+		    bufferTag.append(":");
+		    bufferTag.append("'"+tagValue+"'");
+		    bufferTag.append(",");
+		}
+		
+		for(int jk=0;jk<coordinateWay.size();jk++){
+		
+			query = "CREATE ( n:way {refid :'"+coordinateWay.get(jk).getReferenceId() +"',"+ bufferTag.toString() +" Lat:'"+coordinateWay.get(jk).getLatitude() +"', Long:'"+coordinateWay.get(jk).getLongitude()+"'})";
+			PreparedStatement stmt = con.prepareStatement(query);
+			stmt.executeQuery();
+			if(jk == coordinateWay.size()-1){
+				stmt.close();
+			}
+			}
+		
+		
+		for(int jk=0;jk<coordinateWay.size();jk++){
+			
+			if(jk+1 < coordinateWay.size()){
+			StringBuffer synchronizercontainer = new StringBuffer();
+			synchronizercontainer.append("MATCH (lane:way) WHERE lane.refid = '"+ coordinateWay.get(jk).getReferenceId() +"'");
+			synchronizercontainer.append("MATCH (laner:way) WHERE laner.refid = '"+coordinateWay.get(jk+1).getReferenceId()+"'");
+			if(isOneWay){
+				synchronizercontainer.append("CREATE UNIQUE (lane)-[:LOCAL_CONNECT]->(laner);");
+			}else{
+				synchronizercontainer.append("CREATE UNIQUE (lane)-[:LOCAL_CONNECT]-(laner);");
+				System.out.println("Printing out the non unidirectional queries ");
+			}
+
+			System.out.println(synchronizercontainer.toString());
+			PreparedStatement statement = con.prepareStatement(synchronizercontainer.toString());
+			statement.executeQuery();
+			synchronized (statement) {
+				if(jk == coordinateWay.size()-1){
+					statement.close();
+				}	
+			}
+			
+			}
+		}
+		con.close();
+		}
+}
