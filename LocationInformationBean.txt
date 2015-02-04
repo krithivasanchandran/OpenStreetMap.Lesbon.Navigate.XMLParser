@@ -5,8 +5,6 @@ public class WayInfoBean {
 	private String latitude;
 	private String longitude;
 	
-	
-	
 	public String getReferenceId() {
 		return referenceId;
 	}
