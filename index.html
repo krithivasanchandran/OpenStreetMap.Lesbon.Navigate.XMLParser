@@ -1,0 +1,220 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Custom Maps Navigation using Open Street Maps Data  by krithivasanchandran</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Custom Maps Navigation using Open Street Maps Data </h1>
+        <p class="header">OpenStreetMaps - Implementation of Shortest Path Algorithm using Neo4J </p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/krithivasanchandran/OpenStreetMap.Lesbon.Navigate.XMLParser/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/krithivasanchandran/OpenStreetMap.Lesbon.Navigate.XMLParser/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/krithivasanchandran/OpenStreetMap.Lesbon.Navigate.XMLParser">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/krithivasanchandran">krithivasanchandran</a></p>
+
+
+      </header>
+      <section>
+        <h2>
+<a id="custom-navigation-in-maps-using-openstreetmaps-data" class="anchor" href="#custom-navigation-in-maps-using-openstreetmaps-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Custom Navigation in Maps using OpenStreetMaps Data</h2>
+
+<p>Structure of XML OSM Schema:
+Node , Way and Relationships - For more details please visit : <a href="http://wiki.openstreetmap.org/wiki/OSM_XML">http://wiki.openstreetmap.org/wiki/OSM_XML</a></p>
+
+<p>Designing DOM XML Parser:</p>
+
+<pre><code>DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance(); DocumentBuilder builder = factory.newDocumentBuilder(); Document document = builder.parse(new File("C:/Users/KRITHIVASAN CHANDRAN/Desktop/eclipse/LisbonNavigationOSMParser/Lisboa.xml"));
+
+//Getting the Child Elements by Named Node Name – Way and Node –
+//Getting the Child Elements by Named Node Name Way and Node
+NodeList nodeList = document.getDocumentElement().getElementsByTagName("node");
+NodeList way_Node_List = document.getDocumentElement() .getElementsByTagName("way");
+</code></pre>
+
+<p>Designing JSON Parser:</p>
+
+<pre><code>public class JSONParser {
+
+public static void main(String[] args) throws IOException { 
+// Getting the tag data
+Map popularkeys = new HashMap();
+ for(int i=0;i&lt;=2;i++) { 
+URL url = new URL("http://taginfo.openstreetmap.org/api/4/tags/popular?sortname=count_all&amp;sortorder=desc&amp;page="+i+"&amp;rp=15&amp;qtype=tag&amp;format=json_pretty"); 
+InputStream is = url.openStream(); 
+JsonParserFactory factory=JsonParserFactory.getInstance(); 
+com.json.parsers.JSONParser parser=factory.newJsonParser(); 
+Map jsonData=parser.parseJson(is, "UTF-8"); 
+List value = (List) jsonData.get("data"); 
+for(Map dataset : value){ 
+String keyset = (String) dataset.get("key"); 
+if(!keyset.equalsIgnoreCase("source") &amp;&amp; keyset != null){ 
+String datavalue = (String) dataset.get("value"); 
+popularkeys.put(keyset, datavalue); } } } 
+System.out.println(popularkeys.entrySet());
+ } } 
+String datavalue = (String) dataset.get("value"); 
+popularkeys.put(keyset, datavalue); }}} 
+System.out.println(popularkeys.entrySet()); }}
+</code></pre>
+
+<p>Writing Data to Neo4J Server:</p>
+
+<pre><code>Connection con = DriverManager.getConnection("jdbc:neo4j://localhost:7474/");
+PreparedStatement statement = con.prepareStatement(synchronizercontainer.toString()); 
+statement.executeQuery();
+</code></pre>
+
+<p>Writing Cypher Query to write nodes and relationships to Neo4J graph database:</p>
+
+<p>Create a node with reference Id , longitude , latitude and tag contents parsed from OpenStreetMap data</p>
+
+<pre><code>query = "CREATE ( n:way {refid :'"+coordinateWay.get(jk).getReferenceId() +"',"+ bufferTag.toString() +" Lat:'"+coordinateWay.get(jk).getLatitude() +"', Long:'"+coordinateWay.get(jk).getLongitude()+"'})";
+
+</code></pre>
+
+<p>Creating Unique Relationships between lanes with reference to refId from OSM XML data:</p>
+
+<pre><code>CREATE UNIQUE (33360496)-[:localway]-&gt;(33360529) 
+CREATE UNIQUE (33360529)-[:localway]-&gt;(33360530) 
+CREATE UNIQUE (33360530)-[:localway]-&gt;(33360504) 
+CREATE UNIQUE (33360504)-[:localway]-&gt;(33360505)
+ CREATE UNIQUE (33360505)-[:localway]-&gt;(1135629360)
+</code></pre>
+
+<p>Sample Cypher Query Language:</p>
+
+<pre><code>MATCH N RETURN COUNT(*) – Return the total number of nodes.
+START n=node(*) MATCH (n)-[r]? (m) RETURN n,r,m; - Return all the nodes with following outgoing directed relationship
+MATCH (lane : way {name : ‘Rua Augusta’ }) ? (way) RETURN way.name; - Returns the name of nodes connected to ‘Rua Augusta’.
+MATCH (lane : way {name : ‘Rua Augusta’ }) ? (way) RETURN way.name; - Returns the name of nodes incoming relationship to ‘Rua Augusta’.
+MATCH (lane:Way { name:"Rua da Alfândega" }),(laner:Way { name:"Oliver Stone" }), p = shortestPath((lane)-[*..15]?(laner)) RETURN p; - Returns the shortest path from Source to Destination in 15 hops .
+MATCH (lane:Way { name:"Rua da Alfândega" }),(laner:Way { name:"Oliver Stone" }), p = allShortestPaths((lane)-[*..15]?(laner)) RETURN p; - Returns all the shortest path from Source to Destination
+
+MATCH N RETURN COUNT(*) : Return the total number of nodes.
+
+START n=node(*) MATCH (n)-[r]ïƒ  (m) RETURN n,r,m; - Return all the nodes with following outgoing directed relationship
+MATCH (lane : way {name : â€˜Rua Augustaâ€™ }) ïƒ  (way) RETURN way.name; - Returns the name of nodes connected to â€˜Rua Augustaâ€™.
+MATCH (lane : way {name : â€˜Rua Augustaâ€™ }) ïƒŸ (way) RETURN way.name; - Returns the name of nodes incoming relationship to â€˜Rua Augustaâ€™.
+MATCH (lane:Way { name:"Rua da AlfÃ¢ndega" }),(laner:Way { name:"Oliver Stone" }), p = shortestPath((lane)-[*..15]ïƒ (laner)) RETURN p; - Returns the shortest path from Source to Destination in 15 hops .
+MATCH (lane:Way { name:"Rua da AlfÃ¢ndega" }),(laner:Way { name:"Oliver Stone" }), p = allShortestPaths((lane)-[*..15]ïƒ (laner)) RETURN p; - Returns all the shortest path from Source to Destination
+</code></pre>
+
+<p>Visualizing the directed Graph:</p>
+
+<pre><code>START n=node(*) MATCH (n)-[r]-&gt;(m) RETURN n,r,m LIMIT 250;
+</code></pre>
+
+<p>This cypher query returns all the outgoing relationship associated with the node and is limited to 250 nodes. The screenshot of the graph is attached below .</p>
+
+<p>Node Relationships:</p>
+
+<p>LOCAL_CONNECT :</p>
+
+<p>Way Named Node contains child elements identified by referenceID. The relationship that exists between a single lane is [:LOCAL_CONNECT]. The relationship is as shown below:</p>
+
+<p>EXTERNAL_CONNECT:</p>
+
+<p>Totally distinct different ways with one similar reference Ids are connected by [:EXTERNAL_CONNECT] relationship. Cypher.java identifies the similar referenceID between different lanes and connects them relationally.</p>
+
+<pre><code>GraphDatabaseService db = new GraphDatabaseFactory().newEmbeddedDatabase("C:/Users/KRITHIVASAN CHANDRAN/Documents/Neo4j/default.graphdb");
+ExecutionEngine engine = new ExecutionEngine( db );
+result = engine.execute(" MATCH (n:way { refid :'" + str + "'}) RETURN DISTINCT n.name AS name;"); 
+Iterator column = result.columnAs( "name" );
+
+//Returns the Distinct referenceId ad stores in the ArrayList.
+
+buffer.append("MATCH (n:way),(lane:way) WHERE n.name = '"+source+"' AND lane.name = '"+destination+"' AND n.refid ='"+str+"' AND lane.refid= '"+str+"'"); 
+buffer.append("CREATE UNIQUE (n)-[:EXTERNAL_CONNECT]-(lane);");
+</code></pre>
+
+<p>Distance Calculation given their Latitudes and Longitudes : (Reference StackOverflow)</p>
+
+<pre><code> double dLat = getRad(latitude2 - latitude1);
+        double dLong = getRad(longitude2 - longitude1);
+
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(getRad(latitude1)) * Math.cos(getRad(latitude2)) * 
+                                                                               Math.sin(dLong / 2) * Math.sin(dLong / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return (RADIUS_EARTH * c) * 1000;
+        }
+
+        private Double getRad(Double x) {
+        return x * Math.PI / 180;
+        }
+</code></pre>
+
+<p>Case Study : Lisbon , Portugal - 50 Mile Radius</p>
+
+<p>Analysis 1:</p>
+
+<p>Source : Calçada do Carmo , Lisbon , Portugal</p>
+
+<p>Destination : Rua de São Julião , Lisbon , Portugal</p>
+
+<p>Query:</p>
+
+<pre><code>MATCH (martin:way { name:"Calçada do Carmo" }),(oliver:way { name:"Rua -de São Julião" }), p = shortestPath((martin)-[*..13]-(oliver))
+</code></pre>
+
+<p>The Output of Neo4J is in JSON format is included in project Jar file with Name Analysis_Json1 for analysis.</p>
+
+<p>Analysis2:
+Source : Rua da Padaria, Lisboa, Portugal</p>
+
+<p>Destination : Rua do Instituto Virgílio Machado, Lisboa, Portugal</p>
+
+<p>Source Node : Rua da Padaria 
+Transit Node : Rua dos Bacalhoeiros, Rua dos Arameiros, Rua da Alfândega, Rua Instituto Virgilio Machado</p>
+
+<p>Destination : Rua do Instituto VirgÃ­lio Machado, Lisboa, Portugal</p>
+
+<pre><code>MATCH (martin:way { name:"Rua Instituto Virgilio Machado"}), (oliver:way { name:"Rua da Padaria"}), p = shortestPath((martin)-[*]-(oliver)) RETURN p;
+</code></pre>
+
+<p>The Output of Neo4J is in JSON format is included in project Jar file with Name Analysis_Json3 .</p>
+
+<p>Environment:
+• Eclipse – Juno 
+• Neo4J Database (No SQL graph Database) (<a href="http://www.neo4j.org">www.neo4j.org</a>)
+• XML , JSON 
+• TileMill – Custom Map designer 
+• QGIS – Vector Mapping 
+• OpenXC (Fords Open Source Platform) 
+• Open Data Portugal - <a href="http://www.dados.gov.pt/pt/inicio/inicio.aspx">http://www.dados.gov.pt/pt/inicio/inicio.aspx</a> 
+• Sublime Text Editor
+• Open Street Maps</p>
+
+<p>References:
+• StackOverflow.com 
+• Neo4J Manual – Cypher Query Language 
+• Java 8 Complete reference.</p>
+
+<p>Author:
+Implemented and Designed by <a href="https://github.com/KrithivasanChandran" class="user-mention">@KrithivasanChandran</a> - Krithivasan Chandran</p>
+
+<p>Support:
+You can contact me <a href="mailto:c.keerthivasan@gmail.com">c.keerthivasan@gmail.com</a> if you are experiencing any issues running my code.</p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
