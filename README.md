@@ -2,7 +2,8 @@
 
 The XML usually consists of Node, Way, Relation – 
 
-Node – The node are points on earth that are represented by Reference ID, longitude , latitude parameters which are essential for the XML parsing . The other data is not essential.  Nodes are used to represent shops, bus stops, benches, and post boxes. A node without any tags will always be a sub-element of another element.
+###Node:
+The node are points on earth that are represented by Reference ID, longitude , latitude parameters which are essential for the XML parsing . The other data is not essential.  Nodes are used to represent shops, bus stops, benches, and post boxes. A node without any tags will always be a sub-element of another element.
 
 ```
 <node id="2256232444" lat="38.7325109" lon="-9.2087326" version="2" timestamp="2013-11-08T00:55:31Z" changeset="18774798" uid="380552" user="topolusitania"/>
@@ -18,7 +19,7 @@ Node – The node are points on earth that are represented by Reference ID, long
 <tag k="oneway" v="yes"/>
 </way>
 ```
-Tags:
+###Tags:
 These tags describe the feature they are attached to, and can be any pair of strings up to a maximum of 255 characters in length (including spaces), with the only restriction that keys be unique inside one element. If there are no tags associated with a feature, most renderings of the data won't display that feature. The tags are key – value <k,v>  pair that defines the way with a lot of parameters  . Some of the most commonly used keys are name , transportation , mode , oneway , bicycle , footway , highway , housename , address house number ,address street , address post code. 
 ```
 <tag k="name" v="Rua JoÃ£o das Regras"/>
