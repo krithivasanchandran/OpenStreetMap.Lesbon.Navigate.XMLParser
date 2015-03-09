@@ -1,4 +1,4 @@
-Open Street Map XML Data:  
+###Open Street Map XML Data:  
 
 The XML usually consists of Node, Way, Relation – 
 
@@ -24,28 +24,16 @@ These tags describe the feature they are attached to, and can be any pair of str
 <tag k="name" v="Rua JoÃ£o das Regras"/>
 <tag k="oneway" v="yes"/>
 </way>
-```
-Tags: 
-These tags describe the feature they are attached to, and can be any pair of strings up to a maximum of 255 characters in length (including spaces), with the only restriction that keys be unique inside one element. If there are no tags associated with a feature, most renderings of the data won't display that feature. The tags are key , value <k,v>  pair that defines the way with a lot of parameters  . Some of the most commonly used keys are name , transportation , mode , oneway , bicycle , footway , highway , housename , address house number ,address street , address post code. 
 
-```
 <tag k="access" v="delivery"/>
 <tag k="highway" v="residential"/>
 <tag k="lit" v="yes"/>
-<<<<<<< HEAD
 <tag k="name" v="Rua João das Regras"/>
 <tag k="oneway" v="yes"/>
 ```
 
-Relation:
+###Relation:
 A relation is one of the core data elements that consists of one or more tags and also an ordered list of one or more nodes, ways and/or reference ids.  
-
-```
-<tag k="name" v="Rua JoÃ£o das Regras"/>
-<tag k="oneway" v="yes"/>
-```
-
-Relation : A relation is one of the core data elements that consists of one or more tags and also an ordered list of one or more nodes, ways and/or reference ids.  
 
 ```
 <relation id="3323894" version="1" timestamp="2013-11-13T17:44:34Z" changeset="18878616" uid="380552" user="topolusitania">
@@ -54,7 +42,7 @@ Relation : A relation is one of the core data elements that consists of one or m
 <tag k="type" v="multipolygon"/>
 </relation>
 ```
-LOCAL_CONNECT : 
+###LOCAL_CONNECT : 
 
 Way Named Node contains child elements identified by referenceID. The relationship that exists between a single lane is [:LOCAL_CONNECT]. The relationship is as shown below: 
 ```
@@ -75,7 +63,7 @@ Way Named Node contains child elements identified by referenceID. The relationsh
 </way>
 ```
  
-EXTERNAL_CONNECT: 
+###EXTERNAL_CONNECT: 
 
 Totally distinct different ways with one similar reference Ids are connected by [:EXTERNAL_CONNECT] relationship. Cypher.java identifies the similar referenceID between different lanes and connects them relationally. 
 ```
@@ -155,7 +143,7 @@ cars , trunks  , bikes  used black as outer color and blue as inner line color.
 ```
 Buildings are shown in purple color. Zoom parameter helps in reloading the map with a different CSS which shows a detailed view of the streets and buildings. 
 
-2.2. Requirements and Assumptions
+###2.2. Requirements and Assumptions
 
 ###2.2.1 Interfaces:
 
@@ -181,7 +169,7 @@ On the fly XML data capture is used  Java 8  List.Stream.Parallel() is used for 
 The Results are compared between Neo4J database output and Google Maps . 
 
 
-Result and Comparison : 
+###Result and Comparison : 
 
 
 Shortest Path: 
@@ -274,11 +262,11 @@ Neo4J Manual â€“ Cypher Query Language
 Open Street Maps Wiki
 Java 8 Complete reference.
 
-7.0. Appendices
+### Appendices
 
 Refer Introduction.
 
-7.1. Services and Software Used
+###Services and Software Used
 
 
 •	Eclipse – Juno 
@@ -291,6 +279,6 @@ Refer Introduction.
 •	Sublime Text Editor 
 •	Open Street Maps – Wiki 
 
-For more details please visit : http://krithivasanchandran.github.io/OpenStreetMap.Lesbon.Navigate.XMLParser/
+###For more details please visit : http://krithivasanchandran.github.io/OpenStreetMap.Lesbon.Navigate.XMLParser/
 
 
