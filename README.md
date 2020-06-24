@@ -68,7 +68,7 @@ Way Named Node contains child elements identified by referenceID. The relationsh
 
 Totally distinct different ways with one similar reference Ids are connected by [:EXTERNAL_CONNECT] relationship. Cypher.java identifies the similar referenceID between different lanes and connects them relationally. 
 ```
-GraphDatabaseService db = new GraphDatabaseFactory().newEmbeddedDatabase("C:/Users/KRITHIVASAN CHANDRAN/Documents/Neo4j/default.graphdb");
+GraphDatabaseService db = new GraphDatabaseFactory().newEmbeddedDatabase("C:/Users/User/Documents/Neo4j/default.graphdb");
 		ExecutionEngine engine = new ExecutionEngine( db );
 
 result = engine.execute(" MATCH (n:way { refid :'" + str + "'}) RETURN DISTINCT  n.name AS name;");
@@ -280,6 +280,6 @@ Refer Introduction.
 •	Sublime Text Editor 
 •	Open Street Maps – Wiki 
 
-###For more details please visit : http://krithivasanchandran.github.io/OpenStreetMap.Lesbon.Navigate.XMLParser/
+###For more details please visit : http://kchander.github.io/OpenStreetMap.Lesbon.Navigate.XMLParser/
 
 
