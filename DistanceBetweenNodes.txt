@@ -1,5 +1,7 @@
 
 public class DistanceBetweenNodes {
+
+// Refer to https://dl.acm.org/doi/pdf/10.1145/3394486.3403381 - HarverSine Error - Need to revisit this one. 
 	
 	  public Double getDistanceBetweenTwoPoints(Double latitude1, Double longitude1, Double latitude2, Double longitude2) {
 		    final int RADIUS_EARTH = 6371;
